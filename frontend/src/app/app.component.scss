@@ -1,0 +1,10 @@
+@use '@angular/material' as mat;
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 0;
+    background-color: var(--mat-sys-primary-container);
+}
