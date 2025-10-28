@@ -21,16 +21,15 @@ main>form {
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
     justify-content: center;
     align-items: center;
 }
 
 main>form>mat-card {
-    height: 15rem;
-    width: calc(50% - 2rem);
+    width: 100%;
+    margin-bottom: 2rem;
 }
 
 mat-card {
-    padding: 2rem;
+    padding: 0.25rem 1rem;
 }
