@@ -1,0 +1,35 @@
+@use '@angular/material' as mat;
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 0;
+    background-color: var(--mat-sys-primary-container);
+}
+
+main {
+    padding: 2.5% 10%;
+}
+
+main>form {
+    margin: 0;
+    margin-bottom: 2rem;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+main>form>mat-card {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+mat-card {
+    padding: 0.25rem 1rem;
+}

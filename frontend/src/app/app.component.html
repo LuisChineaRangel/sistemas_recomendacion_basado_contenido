@@ -1,0 +1,55 @@
+<header>
+    <h1>Sistemas de recomendación | Modelos basados en contenido</h1>
+    <span>Gestión del conocimiento en las organizaciones</span>
+</header>
+<main>
+    <form [formGroup]="formRecomendacion">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title> Conjunto de documentos </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p> Seleccione uno o varios archivos en formato TXT a analizar. </p>
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Ficheros a analizar</mat-label>
+                    <ngx-mat-file-input placeholder="Seleccionar archivo" [accept]="'.txt'" formControlName="documentos"
+                        maxFileCount="50" multiple></ngx-mat-file-input>
+                    <mat-icon matSuffix>folder</mat-icon>
+                </mat-form-field>
+            </mat-card-content>
+        </mat-card>
+        <mat-card><mat-card-header>
+                <mat-card-title> Fichero con stop words </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p> Seleccione un archivo TXT. </p>
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Fichero con las stop words</mat-label>
+                    <ngx-mat-file-input placeholder="Seleccionar archivo" [accept]="'.txt'"
+                        formControlName="ficheroStopWords"></ngx-mat-file-input>
+                    <mat-icon matSuffix>folder</mat-icon>
+                </mat-form-field>
+            </mat-card-content>
+        </mat-card>
+        <mat-card><mat-card-header>
+                <mat-card-title> Fichero de lematización de términos </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p> Seleccione un archivo TXT. </p>
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Fichero de lematización</mat-label>
+                    <ngx-mat-file-input placeholder="Seleccionar archivo" [accept]="'.txt'"
+                        formControlName="ficheroLematizacion"></ngx-mat-file-input>
+                    <mat-icon matSuffix>folder</mat-icon>
+                </mat-form-field>
+            </mat-card-content>
+        </mat-card>
+        <button matFab extended (click)="generarResultados()">
+            <mat-icon>upload</mat-icon>
+            Generar recomendaciones
+        </button>
+    </form>
+</main>
+<footer>
+
+</footer>
