@@ -1,16 +1,22 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MaterialFileInputModule } from 'ngx-custom-material-file-input';
 
+import { SistemaRecomendacionService } from './services/sistema-recomendacion.service';
+
 const dependencias = [
+    CommonModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,
+    MatTableModule,
     MatFormFieldModule,
     MaterialFileInputModule,
     ReactiveFormsModule
@@ -26,13 +32,14 @@ const dependencias = [
 export class AppComponent implements OnInit {
     public title = 'Sistemas de recomendación | Modelos basados en contenido';
     public formRecomendacion: FormGroup;
+    public datos: any[] = [];
     private snackBar: MatSnackBar = inject(MatSnackBar);
 
     ngOnInit(): void {
         console.log('Aplicación web iniciada correctamente');
     }
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private sistemaRecomendacionSvc: SistemaRecomendacionService) {
         this.formRecomendacion = this.fb.group({
             documentos: [null, Validators.required],
             ficheroStopWords: [null, Validators.required],
@@ -88,13 +95,29 @@ export class AppComponent implements OnInit {
                 });
             }
 
+            this.sistemaRecomendacionSvc.generarResultados({
+                documentos: textoDocumentos,
+                stopWords: stopWords,
+                lematizacion: lematizacion
+            }).subscribe({
+                next: (response) => {
+                    console.log('Resultados generados:', response);
+                    this.datos = response.resultados;
+                },
+                error: (error) => {
+                    console.error('Error al generar resultados:', error);
+                    this.snackBar.open('Error al generar resultados: ' + (error.error?.error || 'Error desconocido'), 'Cerrar', {
+                        horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000
+                    });
+                },
+            });
+
         } catch (error) {
             console.error('Error inesperado:', error);
             this.snackBar.open('Ocurrió un error inesperado', 'Cerrar', {
                 horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000
             });
         }
-        console.log('Generando resultados del análisis de documentos');
     }
 
     private leerArchivoComoTexto(file: File): Promise<string> {

@@ -49,6 +49,42 @@
             Generar recomendaciones
         </button>
     </form>
+    <div>
+        <mat-card *ngIf="datos.length > 0">
+            <mat-card-header>
+                <mat-card-title> Resultados </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngFor="let dato of datos">
+                    <h3> Documento: {{dato.documento}} </h3>
+                    <table mat-table [dataSource]="dato.resultados" class="mat-elevation-z8" style="width: 100%; margin-bottom: 20px;">
+                        <ng-container matColumnDef="indice">
+                            <th mat-header-cell *matHeaderCellDef> Índice </th>
+                            <td mat-cell *matCellDef="let element"> {{element.indice}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="termino">
+                            <th mat-header-cell *matHeaderCellDef> Término </th>
+                            <td mat-cell *matCellDef="let element"> {{element.termino}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="tf">
+                            <th mat-header-cell *matHeaderCellDef> TF </th>
+                            <td mat-cell *matCellDef="let element"> {{element.tf}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="idf">
+                            <th mat-header-cell *matHeaderCellDef> IDF </th>
+                            <td mat-cell *matCellDef="let element"> {{element.idf}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="tfidf">
+                            <th mat-header-cell *matHeaderCellDef> TF-IDF </th>
+                            <td mat-cell *matCellDef="let element"> {{element.tfidf}} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="['indice', 'termino', 'tf', 'idf', 'tfidf']"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['indice', 'termino', 'tf', 'idf', 'tfidf'];"></tr>
+                    </table>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </main>
 <footer>
 
