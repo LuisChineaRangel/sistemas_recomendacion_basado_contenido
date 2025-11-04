@@ -1,0 +1,114 @@
+Malware includes viruses worms trojans and ransomware
+Phishing attacks use deceptive emails to steal credentials
+Social engineering manipulates humans into breaking security procedures
+Zero-day exploits target unknown vulnerabilities before patches exist
+Advanced persistent threats are prolonged targeted attacks
+DDoS attacks overwhelm systems with excessive traffic
+Man-in-the-middle attacks intercept communications between parties
+SQL injection exploits database vulnerabilities through inputs
+Cross-site scripting attacks inject malicious scripts into web pages
+Password attacks include brute force and dictionary methods
+Insider threats come from current or former employees
+Supply chain attacks compromise software or hardware before delivery
+Cryptojacking secretly uses victims computing resources for mining
+IoT vulnerabilities affect interconnected smart devices
+Cloud security challenges include misconfigurations and data exposure
+Mobile security threats target smartphones and tablets
+AI-powered attacks use machine learning to evade detection
+Deepfakes create realistic synthetic media for disinformation
+Endpoint protection secures devices connecting to networks
+Firewalls control incoming and outgoing network traffic
+Intrusion detection systems monitor for suspicious activities
+Encryption protects data confidentiality through mathematical algorithms
+Multi-factor authentication requires multiple verification methods
+Access control limits system access to authorized users
+Security information and event management correlates log data
+Vulnerability management identifies and remediates security weaknesses
+Patch management applies updates to fix security flaws
+Network segmentation isolates network sections to limit breaches
+Backup and recovery plans ensure business continuity after incidents
+Disaster recovery procedures restore systems after major outages
+Incident response plans outline steps for addressing security breaches
+Penetration testing simulates attacks to find vulnerabilities
+Security awareness training educates employees about threats
+Bug bounty programs reward researchers for finding vulnerabilities
+Threat intelligence gathers information about potential attackers
+Digital forensics investigates security incidents after they occur
+Identity and access management controls user identities and privileges
+Data loss prevention stops sensitive data from leaving organizations
+Application security focuses on securing software throughout lifecycle
+Web application firewalls protect web apps from various attacks
+Database security protects sensitive information stored in databases
+Email security filters malicious messages and attachments
+Network security protects infrastructure from unauthorized access
+Wireless security secures Wi-Fi networks against intrusions
+Cloud access security brokers enforce security policies for cloud services
+Container security protects applications in isolated runtime environments
+Zero trust architecture verifies every request as though originating from open network
+Deception technology uses traps and lures to detect and study attackers
+Hardware security modules manage digital keys for strong authentication
+Quantum cryptography uses quantum mechanics for secure communication
+Homomorphic encryption allows computation on encrypted data
+Blockchain provides decentralized tamper-resistant record keeping
+Secure coding practices prevent vulnerabilities during development
+Code signing verifies software authenticity and integrity
+Security by design integrates security throughout development process
+Privacy by design embeds privacy into system architecture
+Threat modeling identifies potential threats during design phase
+Risk assessment evaluates potential security risks to organization
+Security policies define rules and procedures for protection
+Compliance frameworks ensure adherence to regulations and standards
+Cyber insurance transfers financial risk of security incidents
+Cyber hygiene refers to routine practices that maintain system health
+Security orchestration automates and coordinates security tasks
+Password managers generate and store complex passwords securely
+Virtual private networks create secure encrypted connections
+Sandboxing isolates untrusted programs in restricted environments
+Whitelisting allows only approved programs to run
+Blacklisting blocks known malicious entities
+Behavioral analysis detects anomalies in user or system behavior
+Honeypots attract and study attackers to learn their methods
+Tokenization replaces sensitive data with non-sensitive equivalents
+Biometric authentication uses physical characteristics for verification
+Hardening reduces attack surface by removing unnecessary features
+Least privilege principle grants minimum permissions necessary
+Separation of duties divides critical tasks among multiple people
+Fail securely without exposing sensitive information during failures
+Defense in depth uses multiple overlapping security controls
+Cyber resilience maintains operations during and after attacks
+Digital certificates verify ownership of encryption keys
+Public key infrastructure manages digital certificates and keys
+Secure sockets layer and transport layer security encrypt web traffic
+Domain name system security extensions protect against DNS spoofing
+Email authentication verifies sender identity for messages
+Network access control restricts network access based on security policies
+Endpoint detection and response monitors endpoints for suspicious activities
+Extended detection and response integrates security data across multiple layers
+Security ratings provide quantitative measurements of security posture
+Dark web monitoring searches hidden internet for stolen data
+Cyber threat hunting proactively searches for undetected threats
+Vulnerability disclosure programs manage reporting of security flaws
+Red team exercises simulate adversary attacks to test defenses
+Blue team defends against simulated attacks during exercises
+Purple team combines red and blue teams for improved security
+Security culture fosters security-aware mindset throughout organization
+Cyber ranges provide simulated environments for security training
+Incident command system coordinates response to major security incidents
+Tabletop exercises simulate response to security scenarios
+Business impact analysis identifies consequences of disruption
+Recovery time objective defines maximum acceptable downtime
+Recovery point objective defines maximum data loss acceptable
+Cyber kill chain describes stages of cyber attack
+MITRE ATT&CK framework categorizes adversary tactics and techniques
+Cyber defense frameworks provide guidelines for security programs
+Security metrics quantify effectiveness of security controls
+Continuous monitoring constantly assesses security controls
+Security automation uses technology to perform security tasks
+DevSecOps integrates security into DevOps processes
+Cloud security posture management identifies misconfigurations in cloud
+Workload protection secures applications and data across environments
+Data encryption at rest protects stored information
+Data encryption in transit protects information being transmitted
+Data masking hides sensitive information in non-production environments
+Data classification categorizes data based on sensitivity
+Information rights management controls access to digital information

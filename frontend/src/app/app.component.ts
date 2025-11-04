@@ -1,10 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MaterialFileInputModule } from 'ngx-custom-material-file-input';
@@ -17,10 +18,29 @@ const dependencias = [
     MatIconModule,
     MatButtonModule,
     MatTableModule,
+    MatPaginatorModule,
     MatFormFieldModule,
     MaterialFileInputModule,
     ReactiveFormsModule
 ]
+
+export interface Termino {
+    indice: number;
+    termino: string;
+    tf: number;
+    tfidf: number;
+}
+
+export interface ResultadoDocumento {
+    id: number | string;
+    terms: MatTableDataSource<Termino>;
+}
+
+export interface SimilaridadCoseno {
+    documentoA: string;
+    documentoB: string;
+    similaridad: number;
+}
 
 @Component({
     selector: 'app-root',
@@ -32,11 +52,22 @@ const dependencias = [
 export class AppComponent implements OnInit {
     public title = 'Sistemas de recomendación | Modelos basados en contenido';
     public formRecomendacion: FormGroup;
-    public datos: any[] = [];
+    public datos: ResultadoDocumento[] = [];
+    public similaridades: SimilaridadCoseno[] = [];
+    public displayedColumnsResultados: string[] = ['indice', 'termino', 'tf', 'idf', 'tfidf'];
+    public displayedColumnsSimilaridad: string[] = ['documentoA', 'documentoB', 'similaridad'];
+
     private snackBar: MatSnackBar = inject(MatSnackBar);
+    @ViewChildren(MatPaginator) paginators!: QueryList<MatPaginator>;
 
     ngOnInit(): void {
         console.log('Aplicación web iniciada correctamente');
+    }
+
+    ngAfterViewInit(): void {
+        this.paginators?.changes.subscribe(() => {
+            this.asignarPaginadores();
+        });
     }
 
     constructor(private fb: FormBuilder, private sistemaRecomendacionSvc: SistemaRecomendacionService) {
@@ -58,6 +89,10 @@ export class AppComponent implements OnInit {
             return;
         }
 
+        this.datos = [];
+        this.similaridades = [];
+        this.paginators?.forEach(p => p.firstPage());
+
         const documentos = this.formRecomendacion.get('documentos')?.value?.files;
         const ficheroStopWords = this.formRecomendacion.get('ficheroStopWords')?.value?.files[0];
         const ficheroLematizacion = this.formRecomendacion.get('ficheroLematizacion')?.value?.files[0];
@@ -65,7 +100,10 @@ export class AppComponent implements OnInit {
             const textoDocumentos = [];
             for (const [i, documento] of documentos.entries()) {
                 try {
-                    textoDocumentos.push(await this.leerArchivoComoTexto(documento));
+                    textoDocumentos.push({
+                        id: documento.name || `archivo #${i}`,
+                        contenido: await this.leerArchivoComoTexto(documento)
+                    });
                 } catch (error) {
                     console.error(`Error al leer "${documento.name || `archivo #${i}`}"`, error);
                     this.snackBar.open(
@@ -101,8 +139,13 @@ export class AppComponent implements OnInit {
                 lematizacion: lematizacion
             }).subscribe({
                 next: (response) => {
-                    console.log('Resultados generados:', response);
-                    this.datos = response.resultados;
+                    console.log('Resultados generados (raw):', response);
+                    this.datos = response.resultados.map((item: { id: string, terms: Termino[] }) => ({
+                        id: item.id,
+                        terms: new MatTableDataSource<Termino>(item.terms)
+                    }));
+                    this.similaridades = response.similaridades;
+                    setTimeout(() => { this.asignarPaginadores(); }, 0);
                 },
                 error: (error) => {
                     console.error('Error al generar resultados:', error);
@@ -129,5 +172,12 @@ export class AppComponent implements OnInit {
             reader.onerror = reject;
             reader.readAsText(file, 'UTF-8');
         });
+    }
+
+    private asignarPaginadores() {
+        if (this.datos.length && this.paginators?.length === this.datos.length)
+            this.datos.forEach((doc, index) => {
+                doc.terms.paginator = this.paginators?.toArray()[index];
+            });
     }
 }

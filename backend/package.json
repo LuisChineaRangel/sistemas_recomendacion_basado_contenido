@@ -2,12 +2,12 @@
     "name": "sistemas-recomendacion-basado-contenido-backend",
     "version": "1.0.0",
     "description": "API backend Node.js/Express para el sistema de recomendación basado en contenido.",
-    "main": "dist/main.js",
+    "main": "dist/app.js",
     "type": "module",
     "scripts": {
         "build": "npm install && tsc",
-        "start": "node dist/main.js",
-        "dev": "tsc-watch --onSuccess \"node ./dist/main.js\""
+        "start": "node dist/app.js",
+        "dev": "tsc-watch --onSuccess \"node ./dist/app.js\""
     },
     "dependencies": {
         "cors": "^2.8.5",

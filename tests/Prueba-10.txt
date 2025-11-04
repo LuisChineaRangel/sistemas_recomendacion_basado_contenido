@@ -1,0 +1,98 @@
+Additive manufacturing builds objects layer by layer from digital models
+Fused deposition modeling extrudes thermoplastic filaments through heated nozzle
+Stereolithography uses UV laser to cure photopolymer resin layer by layer
+Selective laser sintering fuses powder materials using laser beam
+Digital light processing projects entire layers using digital micromirrors
+Multi-jet fusion uses inkjet array to fuse powder material selectively
+Binder jetting deposits liquid binder onto powder bed layer by layer
+Direct energy deposition uses focused energy source to melt material as deposited
+Material jetting deposits photopolymer droplets cured with UV light
+Sheet lamination bonds sheets of material cut to shape and stacked
+Vat polymerization cures liquid photopolymer in vat using light source
+Powder bed fusion encompasses several technologies including SLS and SLM
+Directed energy deposition repairs or adds material to existing components
+Continuous liquid interface production grows parts continuously from resin pool
+Fused filament fabrication is another term for fused deposition modeling
+3D printing enables rapid prototyping reducing development time
+Customized medical implants match patient anatomy precisely
+Dental applications include crowns bridges and surgical guides
+Hearing aid shells are almost exclusively 3D printed worldwide
+Orthopedic implants feature porous structures for bone integration
+Surgical planning models allow surgeons to practice complex procedures
+Prosthetic limbs can be customized at lower cost using 3D printing
+Bioprinting deposits living cells to create tissue constructs
+Pharmaceutical printing produces personalized drug dosage forms
+Medical device manufacturing benefits from design freedom
+Aerospace components use lightweight optimized geometries
+Automotive industry prints prototypes tools and end-use parts
+Tooling and fixtures can be produced quickly and cheaply
+Spare parts printing enables on-demand manufacturing
+Architectural models communicate design concepts effectively
+Construction printing extrudes concrete or other building materials
+Consumer products gain from mass customization possibilities
+Jewelry industry creates intricate designs difficult with traditional methods
+Education uses 3D printing for hands-on learning experiences
+Art and sculpture explore new forms and expressions
+Food printing creates customized nutritional and decorative items
+Fashion industry prints shoes accessories and garments
+Electronics printing creates circuits and components
+Microscale printing produces tiny features for various applications
+Large-scale printing manufactures big objects like furniture and boats
+Multi-material printing combines different materials in single object
+Full-color printing produces vibrant multicolored parts
+Composite materials combine plastics with fibers for strength
+Metal printing includes titanium aluminum and stainless steel
+Ceramic printing creates heat-resistant and biocompatible parts
+Polymer materials range from standard PLA to engineering grades
+Support structures enable printing of overhangs and complex geometries
+Build volume determines maximum size of printable objects
+Layer height affects surface finish and printing time
+Infill density controls internal structure and material usage
+Raster orientation influences mechanical properties
+Post-processing includes support removal and surface finishing
+Heat treatment improves properties of metal printed parts
+CNC machining can complement 3D printing for precision features
+Quality control ensures printed parts meet specifications
+Design for additive manufacturing optimizes parts for printing process
+Topology optimization creates lightweight efficient structures
+Generative design uses algorithms to explore design possibilities
+Lattice structures reduce weight while maintaining strength
+Conformal cooling channels improve injection mold performance
+Part consolidation combines multiple components into single print
+Digital inventory stores designs rather than physical parts
+Distributed manufacturing produces items closer to point of use
+Supply chain disruption resilience through local production
+Mass customization enables personalized products at scale
+Rapid tooling creates molds and patterns quickly
+Indirect manufacturing uses printed patterns for casting processes
+Hybrid manufacturing combines additive and subtractive methods
+4D printing creates objects that change shape over time
+Smart materials respond to stimuli like temperature or moisture
+Functionally graded materials vary properties within single part
+In-situ monitoring detects defects during printing process
+Closed-loop control adjusts parameters in real-time
+Machine learning optimizes printing parameters and detects anomalies
+Digital twins simulate printing process and part performance
+File preparation includes slicing 3D models into layers
+Support generation algorithms create necessary support structures
+Build preparation software arranges parts on build platform
+Simulation software predicts distortions and stresses
+Workflow management coordinates entire printing process
+Material handling manages storage and loading of printing materials
+Powder management is critical for powder-based systems
+Safety considerations include ventilation and material handling
+Vendor-agnostic software works with multiple printer brands
+Open-source platforms enable community development
+Standardization efforts create consistent quality measures
+Certification requirements ensure parts meet industry standards
+Intellectual property concerns protect digital designs
+Sustainability benefits include reduced material waste
+Energy consumption varies by printing technology
+Material recycling reuses unused powder and support material
+Life cycle assessment compares environmental impacts
+Economic analysis considers total cost of ownership
+Business models include service bureaus and in-house printing
+Skills development requires training in design and operation
+Industry collaborations advance technology development
+Research continues to improve materials and processes
+Future applications may include printed organs and buildings

@@ -18,32 +18,34 @@
                 </mat-form-field>
             </mat-card-content>
         </mat-card>
-        <mat-card><mat-card-header>
-                <mat-card-title> Fichero con stop words </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <p> Seleccione un archivo TXT. </p>
-                <mat-form-field appearance="fill" style="width: 100%;">
-                    <mat-label>Fichero con las stop words</mat-label>
-                    <ngx-mat-file-input placeholder="Seleccionar archivo" [accept]="'.txt'"
-                        formControlName="ficheroStopWords"></ngx-mat-file-input>
-                    <mat-icon matSuffix>folder</mat-icon>
-                </mat-form-field>
-            </mat-card-content>
-        </mat-card>
-        <mat-card><mat-card-header>
-                <mat-card-title> Fichero de lematización de términos </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <p> Seleccione un archivo TXT. </p>
-                <mat-form-field appearance="fill" style="width: 100%;">
-                    <mat-label>Fichero de lematización</mat-label>
-                    <ngx-mat-file-input placeholder="Seleccionar archivo" [accept]="'.txt'"
-                        formControlName="ficheroLematizacion"></ngx-mat-file-input>
-                    <mat-icon matSuffix>folder</mat-icon>
-                </mat-form-field>
-            </mat-card-content>
-        </mat-card>
+        <div>
+            <mat-card><mat-card-header>
+                    <mat-card-title> Fichero con stop words </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p> Seleccione un archivo TXT. </p>
+                    <mat-form-field appearance="fill" style="width: 100%;">
+                        <mat-label>Fichero con las stop words</mat-label>
+                        <ngx-mat-file-input placeholder="Seleccionar archivo" [accept]="'.txt'"
+                            formControlName="ficheroStopWords"></ngx-mat-file-input>
+                        <mat-icon matSuffix>folder</mat-icon>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+            <mat-card><mat-card-header>
+                    <mat-card-title> Fichero de lematización de términos </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p> Seleccione un archivo JSON. </p>
+                    <mat-form-field appearance="fill" style="width: 100%;">
+                        <mat-label>Fichero de lematización</mat-label>
+                        <ngx-mat-file-input placeholder="Seleccionar archivo" [accept]="'.json'"
+                            formControlName="ficheroLematizacion"></ngx-mat-file-input>
+                        <mat-icon matSuffix>folder</mat-icon>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+        </div>
         <button matFab extended (click)="generarResultados()">
             <mat-icon>upload</mat-icon>
             Generar recomendaciones
@@ -56,11 +58,12 @@
             </mat-card-header>
             <mat-card-content>
                 <div *ngFor="let dato of datos">
-                    <h3> Documento: {{dato.documento}} </h3>
-                    <table mat-table [dataSource]="dato.resultados" class="mat-elevation-z8" style="width: 100%; margin-bottom: 20px;">
+                    <table mat-table [dataSource]="dato.terms" class="mat-elevation-z8"
+                        style="width: 100%; margin-bottom: 20px;">
+                        <caption class="tabla-titulo">{{dato.id}}</caption>
                         <ng-container matColumnDef="indice">
-                            <th mat-header-cell *matHeaderCellDef> Índice </th>
-                            <td mat-cell *matCellDef="let element"> {{element.indice}} </td>
+                            <th mat-header-cell *matHeaderCellDef class="col-indice"> Índice </th>
+                            <td mat-cell *matCellDef="let element" class="col-indice"> {{element.indice}} </td>
                         </ng-container>
                         <ng-container matColumnDef="termino">
                             <th mat-header-cell *matHeaderCellDef> Término </th>
@@ -68,20 +71,48 @@
                         </ng-container>
                         <ng-container matColumnDef="tf">
                             <th mat-header-cell *matHeaderCellDef> TF </th>
-                            <td mat-cell *matCellDef="let element"> {{element.tf}} </td>
+                            <td mat-cell *matCellDef="let element"> {{ element.tf | number:'1.0-4' }} </td>
                         </ng-container>
                         <ng-container matColumnDef="idf">
                             <th mat-header-cell *matHeaderCellDef> IDF </th>
-                            <td mat-cell *matCellDef="let element"> {{element.idf}} </td>
+                            <td mat-cell *matCellDef="let element"> {{ element.idf | number:'1.0-4' }} </td>
                         </ng-container>
                         <ng-container matColumnDef="tfidf">
                             <th mat-header-cell *matHeaderCellDef> TF-IDF </th>
-                            <td mat-cell *matCellDef="let element"> {{element.tfidf}} </td>
+                            <td mat-cell *matCellDef="let element"> {{ element.tfidf | number:'1.0-4' }} </td>
                         </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="['indice', 'termino', 'tf', 'idf', 'tfidf']"></tr>
-                        <tr mat-row *matRowDef="let row; columns: ['indice', 'termino', 'tf', 'idf', 'tfidf'];"></tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsResultados"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsResultados;"></tr>
                     </table>
+                    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Selección de página"></mat-paginator>
                 </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div>
+        <mat-card *ngIf="similaridades.length > 0">
+            <mat-card-header>
+                <mat-card-title> Similaridades entre documentos </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <table mat-table [dataSource]="similaridades" class="mat-elevation-z8"
+                    style="width: 100%; margin-bottom: 20px;">
+                    <ng-container matColumnDef="documentoA">
+                        <th mat-header-cell *matHeaderCellDef> Documento A </th>
+                        <td mat-cell *matCellDef="let element"> {{element.documentoA}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="documentoB">
+                        <th mat-header-cell *matHeaderCellDef> Documento B </th>
+                        <td mat-cell *matCellDef="let element"> {{element.documentoB}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="similaridad">
+                        <th mat-header-cell *matHeaderCellDef> Similaridad </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.similaridad | number:'1.0-4' }} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsSimilaridad"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsSimilaridad;"></tr>
+                </table>
             </mat-card-content>
         </mat-card>
     </div>
