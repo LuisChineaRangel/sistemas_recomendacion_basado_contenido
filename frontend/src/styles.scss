@@ -9,7 +9,7 @@
     @include mat.snack-bar-overrides((
             button-color: white,
             supporting-text-color: white,
-            container-color: red,
+            container-color: var(--mat-sys-primary-container),
         ));
 }
 
@@ -49,4 +49,19 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.snackbar-success .mat-mdc-snackbar-surface {
+    background-color: #4F8A10 !important;
+    color: white;
+}
+
+.snackbar-error .mat-mdc-snackbar-surface {
+    background-color: #D8000C !important;
+    color: white;
+}
+
+.snackbar-info .mat-mdc-snackbar-surface {
+    background-color: #31708F !important;
+    color: white;
 }

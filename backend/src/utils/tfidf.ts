@@ -18,7 +18,6 @@ export function calcularIDF(documentos: string[][]): Record<string, number> {
 
     vocabulario.forEach(token => {
         const contador = documentos.filter(doc => doc.includes(token)).length;
-        console.log(`Token: ${token}, Documentos que lo contienen: ${contador}. Total de documentos: ${totalDocumentos}`);
         idf[token] = Math.log(totalDocumentos / contador);
     });
 

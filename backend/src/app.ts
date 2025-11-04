@@ -20,7 +20,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
+    origin: process.env.FRONTEND_URL || 'http://localhost:4200',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -70,7 +70,8 @@ app.post('/api/resultados', (req, res) => {
             }
         }
 
-        // Enviar resultados junto con la matriz/array de similaridades
+        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        console.log(`[${new Date().toISOString()}] ${req.ip} - Resultados generados para ${documentos.length} documentos.`);
         res.json({ resultados, similaridades });
     } catch (e: any) {
         res.status(500).json({ error: 'Error al procesar la solicitud', details: e.message });

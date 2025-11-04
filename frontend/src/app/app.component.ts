@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MaterialFileInputModule } from 'ngx-custom-material-file-input';
 
 import { SistemaRecomendacionService } from './services/sistema-recomendacion.service';
+import { saveAs } from 'file-saver';
 
 const dependencias = [
     CommonModule,
@@ -28,6 +29,7 @@ export interface Termino {
     indice: number;
     termino: string;
     tf: number;
+    idf: number;
     tfidf: number;
 }
 
@@ -84,7 +86,8 @@ export class AppComponent implements OnInit {
             this.snackBar.open('Faltan datos por introducir en el formulario o no son válidos', 'Cerrar', {
                 horizontalPosition: 'start',
                 verticalPosition: 'bottom',
-                duration: 4000
+                duration: 4000,
+                panelClass: ['snackbar-error']
             });
             return;
         }
@@ -109,7 +112,10 @@ export class AppComponent implements OnInit {
                     this.snackBar.open(
                         `No se pudo leer "${documento.name || `archivo #${i}`}"`,
                         'Cerrar',
-                        { horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000 }
+                        {
+                            horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000,
+                            panelClass: ['snackbar-error']
+                        }
                     );
                 }
             }
@@ -120,7 +126,8 @@ export class AppComponent implements OnInit {
             } catch (error) {
                 console.error('Error al leer stopwords:', error);
                 this.snackBar.open('Error al leer el archivo de stopwords', 'Cerrar', {
-                    horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000
+                    horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000,
+                    panelClass: ['snackbar-error']
                 });
             }
 
@@ -129,7 +136,8 @@ export class AppComponent implements OnInit {
             } catch (error) {
                 console.error('Error al leer lematización:', error);
                 this.snackBar.open('Error al leer el archivo de lematización', 'Cerrar', {
-                    horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000
+                    horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000,
+                    panelClass: ['snackbar-error']
                 });
             }
 
@@ -144,13 +152,18 @@ export class AppComponent implements OnInit {
                         id: item.id,
                         terms: new MatTableDataSource<Termino>(item.terms)
                     }));
-                    this.similaridades = response.similaridades;
+                    this.similaridades = response.similaridades || [];
                     setTimeout(() => { this.asignarPaginadores(); }, 0);
+                    this.snackBar.open('Resultados generados correctamente', 'Cerrar', {
+                        horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000,
+                        panelClass: ['snackbar-success']
+                    });
                 },
                 error: (error) => {
                     console.error('Error al generar resultados:', error);
                     this.snackBar.open('Error al generar resultados: ' + (error.error?.error || 'Error desconocido'), 'Cerrar', {
-                        horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000
+                        horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000,
+                        panelClass: ['snackbar-error']
                     });
                 },
             });
@@ -158,7 +171,8 @@ export class AppComponent implements OnInit {
         } catch (error) {
             console.error('Error inesperado:', error);
             this.snackBar.open('Ocurrió un error inesperado', 'Cerrar', {
-                horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000
+                horizontalPosition: 'start', verticalPosition: 'bottom', duration: 4000,
+                panelClass: ['snackbar-error']
             });
         }
     }
@@ -172,6 +186,103 @@ export class AppComponent implements OnInit {
             reader.onerror = reject;
             reader.readAsText(file, 'UTF-8');
         });
+    }
+
+    public exportarResultadosComoTXT(decimales: number = 4) {
+        if (this.datos.length === 0) {
+            this.snackBar.open('No hay datos para exportar', 'Cerrar', {
+                horizontalPosition: 'start',
+                verticalPosition: 'bottom',
+                duration: 4000,
+                panelClass: ['snackbar-info']
+            });
+            return;
+        }
+
+        const tabWidth = 8; // ancho equivalente de un tabulador
+        // Función auxiliar para alinear con tabulaciones
+        const padWithTabs = (text: string, maxLen: number) => {
+            // Calcular el número de "columnas de tab" que ocupa el texto
+            const currentTabs = Math.ceil((text.length + 1) / tabWidth);
+            const maxTabs = Math.ceil((maxLen + 1) / tabWidth);
+            const neededTabs = Math.max(1, maxTabs - currentTabs + 1);
+            return text + '\t'.repeat(neededTabs);
+        };
+
+        const contenidoTFIDF = this.datos.map(doc => {
+            const termsData = doc.terms.data.map((term: any) => ({
+                termino: term.termino,
+                tf: term.tf.toFixed(decimales),
+                idf: term.idf.toFixed(decimales),
+                tfidf: term.tfidf.toFixed(decimales)
+            }));
+
+            // Calcular el ancho máximo de cada columna
+            const maxTermLen = Math.max(...termsData.map(t => t.termino.length), 'Término'.length);
+            const maxTfLen = Math.max(...termsData.map(t => t.tf.length), 'TF'.length);
+            const maxIdfLen = Math.max(...termsData.map(t => t.idf.length), 'IDF'.length);
+            const maxTfidfLen = Math.max(...termsData.map(t => t.tfidf.length), 'TF-IDF'.length);
+
+            // Construir tabla alineada
+            const header =
+                padWithTabs('Término', maxTermLen) +
+                padWithTabs('TF', maxTfLen) +
+                padWithTabs('IDF', maxIdfLen) +
+                'TF-IDF';
+
+            const terms = termsData.map(t =>
+                padWithTabs(t.termino, maxTermLen) +
+                padWithTabs(t.tf, maxTfLen) +
+                padWithTabs(t.idf, maxIdfLen) +
+                t.tfidf
+            ).join('\n');
+
+            return (
+                `----------------------------\n` +
+                `Documento: ${doc.id}\n` +
+                `----------------------------\n` +
+                `${header}\n${terms}\n`
+            );
+        }).join('\n');
+
+        let contenidoSimilaridades = '';
+        if (this.similaridades && this.similaridades.length > 0) {
+            // Preparar datos redondeados
+            const simData = this.similaridades.map((s: any) => ({
+                documentoA: s.documentoA,
+                documentoB: s.documentoB,
+                similaridad: s.similaridad.toFixed(decimales)
+            }));
+
+            // Determinar ancho máximo por columna
+            const maxdocumentoALen = Math.max(...simData.map(s => s.documentoA.length), 'Documento 1'.length);
+            const maxdocumentoBLen = Math.max(...simData.map(s => s.documentoB.length), 'Documento 2'.length);
+            const maxSimLen = Math.max(...simData.map(s => s.similaridad.length), 'Similaridad'.length);
+
+            // Construcción de encabezado
+            const headerSim =
+                padWithTabs('Documento 1', maxdocumentoALen) +
+                padWithTabs('Documento 2', maxdocumentoBLen) +
+                'Similaridad';
+
+            // Construcción de filas
+            const filasSim = simData.map(s =>
+                padWithTabs(s.documentoA, maxdocumentoALen) +
+                padWithTabs(s.documentoB, maxdocumentoBLen) +
+                s.similaridad
+            ).join('\n');
+
+            contenidoSimilaridades =
+                `\n----------------------------------\n` +
+                `Similaridad Coseno entre Documentos \n` +
+                `------------------------------------\n` +
+                `${headerSim}\n${filasSim}\n`;
+        }
+
+
+        const contenidoFinal = `${contenidoTFIDF}${contenidoSimilaridades}`;
+        const blob = new Blob([contenidoFinal], { type: 'text/plain;charset=utf-8' });
+        saveAs(blob, 'resultados.txt');
     }
 
     private asignarPaginadores() {

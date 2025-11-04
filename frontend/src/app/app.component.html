@@ -46,10 +46,16 @@
                 </mat-card-content>
             </mat-card>
         </div>
-        <button matFab extended (click)="generarResultados()">
-            <mat-icon>upload</mat-icon>
-            Generar recomendaciones
-        </button>
+        <div class="actions">
+            <button matFab extended (click)="generarResultados()">
+                <mat-icon>upload</mat-icon>
+                Generar recomendaciones
+            </button>
+            <button *ngIf="datos.length > 0" matFab extended (click)="exportarResultadosComoTXT()">
+                <mat-icon>download</mat-icon>
+                Exportar resultados (txt)
+            </button>
+        </div>
     </form>
     <div>
         <mat-card *ngIf="datos.length > 0">
