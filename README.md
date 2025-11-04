@@ -134,14 +134,6 @@ Construcción para producción:
    npm start
    ```
 
-Despliegue con Docker (opcional):
-- Crear Dockerfiles en `frontend/` y `backend/`, construir y desplegar contenedores. Ejemplo:
-  ```bash
-  docker build -t recomendador-frontend ./frontend
-  docker build -t recomendador-backend ./backend
-  docker run -d -p 4200:80 recomendador-frontend
-  docker run -d -p 3000:3000 recomendador-backend
-  ```
 
 Logs y depuración:
 - Revisar la terminal donde se ejecutan los procesos y la consola del navegador para errores.
